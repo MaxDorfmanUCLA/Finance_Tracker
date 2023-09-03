@@ -1,0 +1,24 @@
+### Request 1
+GET http://localhost:3000/finances
+
+
+### Request 2
+POST http://localhost:3000/finances/new
+Content-Type: application/json
+
+{
+  "uid": "KLmcm3sik4OgQVA2dCLLhIfzOKJ3",
+  "income": "4000",
+  "expenseBudget": "1200",
+  "savings": "150",
+  "investments": "100"
+}
+
+### Request 3
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+  "email": "maan1@gmail.com",
+  "password": "helloworld"
+}
