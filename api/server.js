@@ -2,8 +2,9 @@ const env = require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-var authRouter = require("./routes/auth");
-var dashRouter = require("./routes/dashboard");
+const authRouter = require("./routes/auth");
+const dashRouter = require("./routes/dashboard");
+const userActionRouter = require("./routes/userAction");
 
 // initializing an instance of cookie-parser so we can access cookies and store JWTs containing User IDs for later use
 const cookieParser = require("cookie-parser");
@@ -39,8 +40,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 //app.use(cors);
 
+// use routers that have been seperated into different files for clarity and optimization
 app.use("/sign", authRouter);
 app.use("/finances", dashRouter);
+app.use("/expenses", userActionRouter);
 
 
 

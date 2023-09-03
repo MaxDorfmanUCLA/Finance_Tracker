@@ -1,29 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const FinanceSchema = new Schema({
-  uid: {
-    type: String,
-    required: true
-  },
-  income: {
+const UserSchema = new Schema({
+  email: {
     type: Number,
-    required: true
-  },
-  expenseBudget: {
-    type: Number,
-    required: true
-  },
-  savings: {
-    type: Number,
-    required: true
-  },
-  investments: {
-    type: Number,
-    required: true
-  },
-  timestamp:{
-    type: String,
     required: true
   }
 });
@@ -37,4 +17,4 @@ const FinanceSchema = new Schema({
 // However, this will give us the ability to use the string we get from Google
 // Auth to query a user's financial details
 
-module.exports = mongoose.model('finances', FinanceSchema)
+module.exports = mongoose.model('users', UserSchema)

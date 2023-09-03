@@ -3,32 +3,34 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const cors = require('cors');
-
-
+const { initializeApp } = require ("firebase/app");
+//const { initializeApp } = require('firebase-admin/app');
+const { getAuth } = require ("firebase/auth");
 // Creating our Google Firebase auth instance with our generated account key
 const admin = require("firebase-admin");
 const credentials = require("../serviceAccountKey.json")
 
+
+
+const User = require('../models/users');
 // If the user's uid is present in cookies, they alreay have an account, are signed in, and able to view the dashboard 
 // Otherwise, have them create an account by taking them to the sign in page. 
 
 router.post('/in', async (req, res) => {
-  // implementing async await here because we are attempting to create a user in Firebase
-  // and following code logic will be dependant on receieving a response
-  // idToken comes from the client app
-  app.get("/findname", async (req, res)=>{
-    try{
-      if(req.query.name){
-        let singlePerson = await Person.find({name: req.query.name}).exec();
-        return res.json(singlePerson);
-      }else{
-        res.json({error: "No name query found inside request"})
-      }
-    }catch(error){
-      throw error
+  // Using the user's table which hold's unique emails to see if a user already has an account
+
+  try{
+    const usereData = await User.find(req.body.email);
+    
+    if (usereData.email === undefined) {
+      res.send("Your email address is not in our system. You will now be redirected to the signup page")
+      // redirect to the signup page
+    } else {
+      // redirect to the dashboard
     }
-  })
-      //.load signup page
+  } catch(err) {
+    console.log("Error: " + err);
+  }
 
 });
 
@@ -67,10 +69,5 @@ router.get('/cookie', (req, res) => {
   res.json(cookies.uid); 
 })
 
-// function getCookie(name) {
-//   const value = `; ${document.cookie}`;
-//   const parts = value.split(`; ${name}=`);
-//   if (parts.length === 2) return parts.pop().split(';').shift();
-// }
 
 module.exports = router;

@@ -11,7 +11,8 @@ Content-Type: application/json
   "income": "4000",
   "expenseBudget": "1200",
   "savings": "150",
-  "investments": "100"
+  "investments": "100",
+  "timestamp": "09/07/1995"
 }
 
 ### Request 3
@@ -19,7 +20,7 @@ POST http://localhost:3000/sign/up
 Content-Type: application/json
 
 {
-  "email": "m3535nneg1@gmail.com",
+  "email": "3535nneg1@gmail.com",
   "password": "helloworld"
 }
 
@@ -28,9 +29,8 @@ POST http://localhost:3000/sign/in
 Content-Type: application/json
 
 {
-  "email": "m3535nneg1@gmail.com",
+  "email": "megaman11@gmail.com",
   "password": "helloworld"
 }
 
-### Request 5
-GET http://localhost:3000/sign/cookie
+// file for testing dummy DB requests in real time within VSCode
