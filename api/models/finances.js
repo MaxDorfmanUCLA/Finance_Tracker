@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const FinanceSchema = new Schema({
   uid: {
-    type: Number,
+    type: String,
+    unique: true,
     required: true
   },
   income: {

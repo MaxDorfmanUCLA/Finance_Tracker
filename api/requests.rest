@@ -15,10 +15,22 @@ Content-Type: application/json
 }
 
 ### Request 3
-POST http://localhost:3000/signup
+POST http://localhost:3000/sign/up
 Content-Type: application/json
 
 {
-  "email": "maan1@gmail.com",
+  "email": "m3535nneg1@gmail.com",
   "password": "helloworld"
 }
+
+### Request 4
+POST http://localhost:3000/sign/in
+Content-Type: application/json
+
+{
+  "email": "m3535nneg1@gmail.com",
+  "password": "helloworld"
+}
+
+### Request 5
+GET http://localhost:3000/sign/cookie
