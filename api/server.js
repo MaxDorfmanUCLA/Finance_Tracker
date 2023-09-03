@@ -46,18 +46,6 @@ app.use("/finances", dashRouter);
 app.use("/expenses", userActionRouter);
 
 
-
-// app.set('view engine', 'ejs');
-
- 
-// app.get('/', (req, res) => {
-//   console.log("Here")
-//   // res.status(200).json({message: "Error"});
-//   // res.status(200).send("HI");
-//   // res.status(200).download("api/index.js");
-//   res.status(200).render("login");
-// }),
-
 // Using environment variable to determine development environment 
 // node.js server will not print "Server started on port 3000" unless we are in dev environment
 const PORT = process.env.PORT || 3000;
