@@ -35,25 +35,6 @@ mongoose.connect("mongodb+srv://" + process.env.MONGO_USER + ":" + process.env.M
 
 
 app.use(cookieParser());
-//app.use(express.cookieParser());
-
-// set a cookie
-// app.use(function (req, res, next) {
-//   // check if client sent cookie
-//   let cookie = req.cookies.access_token;
-//   if (cookie === undefined) {
-//     // no: set a new cookie
-//     // var randomNumber=Math.random().toString();
-//     // randomNumber=randomNumber.substring(2,randomNumber.length);
-//     //res.cookie('uid',randomNumber, { maxAge: 900000, httpOnly: true, sameSite: "None" });
-//     console.log('no cookie');
-//   } else {
-//     // yes, cookie was already present 
-//     console.log('cookie exists', cookie);
-//   } 
-//   next(); // <-- important!
-// });
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 //app.use(cors);

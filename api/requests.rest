@@ -35,4 +35,13 @@ Content-Type: application/json
 ### Request 5
 GET http://localhost:3000/finances/getcookie
 
+
+### Request 6
+PUT http://localhost:3000/expenses
+Content-Type: application/json
+
+{
+  "dailyExpenses": 45
+}
+
 // file for testing dummy DB requests in real time within VSCode
