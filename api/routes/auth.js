@@ -5,28 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { initializeApp } = require ("firebase/app");
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require ("firebase/auth");
-// // initializing an instance of cookie-parser so we can access cookies and store JWTs containing User IDs for later use
-// const cookieParser = require("cookie-parser");
 
-// app.use(cookieParser());
-// app.use(express.cookieParser());
-
-// // set a cookie
-// app.use(function (req, res, next) {
-//   // check if client sent cookie
-//   var cookie = req.cookies.access_token;
-//   if (cookie === undefined) {
-//     // no: set a new cookie
-//     // var randomNumber=Math.random().toString();
-//     // randomNumber=randomNumber.substring(2,randomNumber.length);
-//     res.cookie('uid',randomNumber, { maxAge: 900000, httpOnly: true });
-//     console.log('cookie created successfully');
-//   } else {
-//     // yes, cookie was already present 
-//     console.log('cookie exists', cookie);
-//   } 
-//   next(); // <-- important!
-// });
 
 
 // using firebase project config to initialize firebase
@@ -46,6 +25,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 router.post('/in', async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With", "content-type");
+  res.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.setHeader("X-Powered-By",' 3.2.1');
+  res.setHeader("Content-Type", "application/json;charset=utf-8");
   // implementing async await here because we are attempting to create a user in Firebase
   // and following code logic will be dependant on receieving a response
   try{
@@ -59,7 +43,7 @@ router.post('/in', async (req, res) => {
 
       res.cookie('uid',user.uid, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true, sameSite: "None" });
        //.load dashboard page
-      res.status(200).json({ message: "Signed in successfully 👌", uid: user.uid });
+      res.status(200).json({ authenticated: true, message: "Signed in successfully 👌", uid: user.uid });
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -76,6 +60,11 @@ router.post('/in', async (req, res) => {
 
 
 router.post('/up', async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With", "content-type");
+  res.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.setHeader("X-Powered-By",' 3.2.1');
+  res.setHeader("Content-Type", "application/json;charset=utf-8");
   // implementing async await here because we are attempting to create a user in Firebase
   // and following code logic will be dependant on receieving a response
   try{
@@ -89,7 +78,7 @@ router.post('/up', async (req, res) => {
   
       res.cookie('uid',user.uid, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true, sameSite: "None" });
        //.load dashboard page
-      res.status(200).json({ message: "Welcome to FinTrack!", uid: user.uid });
+      res.status(200).json({ authenticated: true, message: "Welcome to FinTrack!", uid: user.uid });
     })
       .catch((error) => {
       const errorCode = error.code;

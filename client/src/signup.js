@@ -3,10 +3,9 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import {Router, Route, Link, RouteHandler} from 'react-router';
 import Dashboard from './dashboard.js';
-import Singup from './signup.js';
 
 
-function Login() {
+function Signup() {
   const navigate = useNavigate();
   // State to hold user input
   const [email, setEmail] = useState('');
@@ -15,12 +14,13 @@ function Login() {
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/sign/in', {'email': email, 'password': password })
+    axios.post('http://localhost:3000/sign/up', {'email': email, 'password': password })
 
       .then((response) => {
         console.log("JSON.stringify(response): " + JSON.stringify(response));
         console.log("response.data.authenticated: " + response.data.authenticated);
         console.log("take user to dashboard");
+        
         
         if (response.data.authenticated === true) {
           // localStorage.setItem("authenticated", true);
@@ -37,14 +37,11 @@ function Login() {
       });
   };
 
-  // const handeClick = () => {
-  //   // navigate("/signup");
-  // };
-
   return (
     <div>
       <h1>Welcome to FinTrack</h1>
-      <h2>Login</h2>
+      <h3>No user profile matches the credentials you entered.</h3>
+      <h3>Signup to Create Your Account!</h3>
       <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email:</label>
           <input
@@ -66,14 +63,11 @@ function Login() {
             required
           />
           
-            <button class="button1" type="submit">Login</button>
-          
-          
-            <button class="button2" type="button">Signup</button>
+            <button class="button1" type="submit">Signup</button>
           
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Signup;

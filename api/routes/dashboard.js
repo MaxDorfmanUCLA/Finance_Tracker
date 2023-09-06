@@ -5,17 +5,13 @@ const mongoose = require('mongoose');
 const Finance = require('../models/finances');
 
 
-// // initializing an instance of cookie-parser so we can access cookies and store JWTs containing User IDs for later use
-// const cookieParser = require("cookie-parser");
-
-// app.use(cookieParser());
-// app.use(express.cookieParser());
-
-
-
-
 // This GET route will grab all the financial data we need for a user
 router.get('/', async (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With", "content-type");
+  res.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.setHeader("X-Powered-By",' 3.2.1');
+  res.setHeader("Content-Type", "application/json;charset=utf-8");
   // implementing async await here because we are making a database call
   // and following code logic will be dependant on receieving a response
   // same logic applies to all asyncronous functions
@@ -45,6 +41,11 @@ router.get('/', async (req, res) => {
 
 
   router.post('/new', async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With", "content-type");
+    res.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.setHeader("X-Powered-By",' 3.2.1');
+    res.setHeader("Content-Type", "application/json;charset=utf-8");
 
     try {
       const dt = new Date(Date.now());
