@@ -24,7 +24,8 @@ const FinanceSchema = new Schema({
   },
   timestamp:{
     type: String,
-    required: true
+    //required: true
+    default: Date.now()
   }
 });
 
@@ -37,4 +38,4 @@ const FinanceSchema = new Schema({
 // However, this will give us the ability to use the string we get from Google
 // Auth to query a user's financial details
 
-module.exports = mongoose.model('finances', FinanceSchema)
+module.exports = mongoose.model('finances', FinanceSchema);

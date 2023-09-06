@@ -7,12 +7,11 @@ POST http://localhost:3000/finances/new
 Content-Type: application/json
 
 {
-  "uid": "KLmcm3sik4OgQVA2dCLLhIfzOKJ3",
   "income": "4000",
-  "expenseBudget": "1200",
+  "expenseBudget": "1500",
   "savings": "150",
   "investments": "100",
-  "timestamp": "09/07/1995"
+  "timestamp": "3/8/2023"
 }
 
 ### Request 3
@@ -20,7 +19,7 @@ POST http://localhost:3000/sign/up
 Content-Type: application/json
 
 {
-  "email": "3535nneg1@gmail.com",
+  "email": "newemail4@gmail.com",
   "password": "helloworld"
 }
 
@@ -29,8 +28,11 @@ POST http://localhost:3000/sign/in
 Content-Type: application/json
 
 {
-  "email": "megaman11@gmail.com",
+  "email": "newemail3@gmail.com",
   "password": "helloworld"
 }
+
+### Request 5
+GET http://localhost:3000/finances/getcookie
 
 // file for testing dummy DB requests in real time within VSCode

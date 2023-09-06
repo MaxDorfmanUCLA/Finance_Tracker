@@ -4,32 +4,72 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { initializeApp } = require ("firebase/app");
-//const { initializeApp } = require('firebase-admin/app');
-const { getAuth } = require ("firebase/auth");
-// Creating our Google Firebase auth instance with our generated account key
-const admin = require("firebase-admin");
-const credentials = require("../serviceAccountKey.json")
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require ("firebase/auth");
+// // initializing an instance of cookie-parser so we can access cookies and store JWTs containing User IDs for later use
+// const cookieParser = require("cookie-parser");
+
+// app.use(cookieParser());
+// app.use(express.cookieParser());
+
+// // set a cookie
+// app.use(function (req, res, next) {
+//   // check if client sent cookie
+//   var cookie = req.cookies.access_token;
+//   if (cookie === undefined) {
+//     // no: set a new cookie
+//     // var randomNumber=Math.random().toString();
+//     // randomNumber=randomNumber.substring(2,randomNumber.length);
+//     res.cookie('uid',randomNumber, { maxAge: 900000, httpOnly: true });
+//     console.log('cookie created successfully');
+//   } else {
+//     // yes, cookie was already present 
+//     console.log('cookie exists', cookie);
+//   } 
+//   next(); // <-- important!
+// });
 
 
+// using firebase project config to initialize firebase
+const firebaseConfig = {
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID
+};
 
-const User = require('../models/users');
-// If the user's uid is present in cookies, they alreay have an account, are signed in, and able to view the dashboard 
-// Otherwise, have them create an account by taking them to the sign in page. 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
 
 router.post('/in', async (req, res) => {
-  // Using the user's table which hold's unique emails to see if a user already has an account
-
+  // implementing async await here because we are attempting to create a user in Firebase
+  // and following code logic will be dependant on receieving a response
   try{
-    const usereData = await User.find(req.body.email);
-    
-    if (usereData.email === undefined) {
-      res.send("Your email address is not in our system. You will now be redirected to the signup page")
-      // redirect to the signup page
-    } else {
-      // redirect to the dashboard
-    }
+    await signInWithEmailAndPassword(auth, req.body.email, req.body.password)
+    .then((userCredential) => {
+      // User successfully signed in to the app 
+      const user = userCredential.user;
+     
+      // Clear any existing cookies from the session before creating a new one with signed in user's ID
+      res.clearCookie("uid");
+
+      res.cookie('uid',user.uid, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true, sameSite: "None" });
+       //.load dashboard page
+      res.status(200).json({ message: "Signed in successfully 👌", uid: user.uid });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(`error: ${errorMessage}, errorCode: ${errorCode}`);
+      res.send(`error: ${errorMessage}, errorCode: ${errorCode}`);
+    });
   } catch(err) {
-    console.log("Error: " + err);
+    console.log(`error: ${err}`);
+    res.send(`error: ${err}`)
   }
 
 });
@@ -39,35 +79,30 @@ router.post('/up', async (req, res) => {
   // implementing async await here because we are attempting to create a user in Firebase
   // and following code logic will be dependant on receieving a response
   try{
-    const userResponse = await admin.auth().createUser({
-      email: req.body.email,
-      password: req.body.password,
-      emailVerified: false,
-      disabled: false
-    });
+    await createUserWithEmailAndPassword(auth, req.body.email, req.body.password)
+      .then((userCredential) => {
+      // User successfully signed up and signed in to the app 
+      const user = userCredential.user;
 
-    res.setHeader('Set-Cookie', 'uid=' + userResponse.uid);
-    res.status(200)
-    .json({ message: "Signed up successfully 👌" });
-    //.load dashboard page
-
-  } catch(err) {
-    console.log("error: " + err);
-  }
+      // Clear any existing cookies from the session before creating a new one with new user's ID
+      res.clearCookie("uid");
+  
+      res.cookie('uid',user.uid, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true, sameSite: "None" });
+       //.load dashboard page
+      res.status(200).json({ message: "Welcome to FinTrack!", uid: user.uid });
+    })
+      .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(`error: ${errorMessage}, errorCode: ${errorCode}`);
+      res.send(`error: ${errorMessage}, errorCode: ${errorCode}`);
 });
 
-router.get('/cookie', (req, res) => {
-  let cookies = {};
-
-  const cookiesArray = req.headers.cookie.split(';');
-
-  cookiesArray.forEach((cookie) => {
-      const [key, value] = cookie.trim().split('=');
-      cookies[key] = value;
-  });
-
-  res.json(cookies.uid); 
-})
+  } catch(err) {
+    console.log(`error: ${err}`);
+    res.send(`error: ${err}`);
+  }
+});
 
 
 module.exports = router;
