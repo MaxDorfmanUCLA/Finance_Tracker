@@ -10,8 +10,7 @@ Content-Type: application/json
   "income": "4000",
   "expenseBudget": "1500",
   "savings": "150",
-  "investments": "100",
-  "timestamp": "3/8/2023"
+  "investments": "100"
 }
 
 ### Request 3
@@ -19,7 +18,7 @@ POST http://localhost:3000/sign/up
 Content-Type: application/json
 
 {
-  "email": "newemail4@gmail.com",
+  "email": "newemail45@gmail.com",
   "password": "helloworld"
 }
 
@@ -28,7 +27,7 @@ POST http://localhost:3000/sign/in
 Content-Type: application/json
 
 {
-  "email": "newemail3@gmail.com",
+  "email": "newemail45@gmail.com",
   "password": "helloworld"
 }
 

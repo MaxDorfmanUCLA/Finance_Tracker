@@ -34,8 +34,8 @@ mongoose.connect("mongodb+srv://" + process.env.MONGO_USER + ":" + process.env.M
   .catch((err) => console.log("error: " + err));
 
 const corsOptions ={
-  origin:'http://localhost:3001', 
-  //access-control-allow-origin: 'http://localhost:3001',
+  origin:'http://localhost:3000', 
+  //access-control-allow-origin: 'http://localhost:3000',
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200
 }
@@ -53,5 +53,5 @@ app.use("/expenses", userActionRouter);
 
 // Using environment variable to determine development environment 
 // node.js server will not print "Server started on port 3000" unless we are in dev environment
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log("Server is running on port " + PORT));

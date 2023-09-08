@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-// import './financeForm.css';
-import { useNavigate } from "react-router-dom";
-import {Router, Route, Link, RouteHandler} from 'react-router';
+import React from 'react';
+import './expenseTracker.css';
 
-import ExpenseTracker from './expenseTracker';
-// import FinanceForm from './financeForm';
+//import FinanceForm from './financeForm';
+import Dashboard from './dashboard';
 import Login from './login';
 import Signup from './signup';
 
-function Dashboard(props) {
+function ExpenseTracker(props) {
   const { income, expenseBudget, savings, investments, timestamp } = props;
 
   return (
@@ -34,4 +31,4 @@ function Dashboard(props) {
   );
 }
 
-export default Dashboard;
+export default ExpenseTracker;

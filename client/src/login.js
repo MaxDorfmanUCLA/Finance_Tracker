@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import {Router, Route, Link, RouteHandler} from 'react-router';
-import Dashboard from './dashboard.js';
-import Singup from './signup.js';
+
+import ExpenseTracker from './expenseTracker';
+// import FinanceForm from './financeForm';
+import Dashboard from './dashboard';
+import Signup from './signup';
 
 
 function Login() {
@@ -13,33 +16,42 @@ function Login() {
   const [password, setPassword] = useState('');
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/sign/in', {'email': email, 'password': password })
+    await axios.post('http://localhost:3001/sign/in', {'email': email, 'password': password })
 
-      .then((response) => {
+      .then(async (response) => {
         console.log("JSON.stringify(response): " + JSON.stringify(response));
         console.log("response.data.authenticated: " + response.data.authenticated);
-        console.log("take user to dashboard");
+        console.log("take user to financeform");
         
-        if (response.data.authenticated === true) {
-          // localStorage.setItem("authenticated", true);
-          // navigate user to ("/Dashboard");
-          // <Link to="/dashboard">Dashboard</Link>
-          navigate('/dashboard', { replace: true });
+        if (response.data.authenticated !== true) {
+          // query  to get financial data for user
+          await axios.get('http://localhost:3001/finances')
+
+          .then((FinanceData) => {
+            console.log("JSON.stringify(FinanceData): " + JSON.stringify(FinanceData));
+            if (FinanceData.data.uid !== undefined) {
+              // if user has financial data send them to the page where they can view it (/expenseTracker)
+              navigate('/expenseTracker', { replace: true });
+
+            } else {
+              // if user has no financial data send them to the page where they can enter it (/financeForm)
+              navigate('/financeForm', { replace: true });
+            }
+          })
+          .catch(error => {
+            console.log("error: " + error);
+          });
+
         } else {
           navigate('/signup', { replace: true });
         }
       })
-
       .catch(error => {
         console.log("error: " + error);
       });
   };
-
-  // const handeClick = () => {
-  //   // navigate("/signup");
-  // };
 
   return (
     <div>
@@ -65,12 +77,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          
             <button class="button1" type="submit">Login</button>
-          
-          
-            <button class="button2" type="button">Signup</button>
-          
       </form>
     </div>
   );
